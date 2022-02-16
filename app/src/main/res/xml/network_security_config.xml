@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- post时候，一定要填上信任的地址 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">ssl.ethp.net</domain>
+        <domain includeSubdomains="true">dummy.restapiexample.com</domain>
+    </domain-config>
+</network-security-config>
