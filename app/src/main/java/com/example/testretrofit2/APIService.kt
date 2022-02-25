@@ -21,4 +21,7 @@ interface APIService {
     @GET("/api/v1/employees")
     suspend fun getEmployees(): Response<ResponseBody>
     // ...
+
+    @POST("/EthpJson.aspx")
+    suspend fun testAspxPost(@Body requestBody: RequestBody): Response<ResponseBody>
 }

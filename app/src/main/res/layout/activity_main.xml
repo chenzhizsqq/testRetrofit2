@@ -48,6 +48,14 @@
                 android:text="getMethod"
                 />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:id="@+id/aspx_post"
+                android:text="aspxPost"
+                />
+
 
             <TextView
                 android:id="@+id/jsonContent"
