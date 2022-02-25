@@ -51,6 +51,10 @@ dependencies {
     // Coroutines to make the HTTP requests asynchronous(In the background thread)
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
 
+
+    //Retrofit Gson转换器
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
@@ -58,6 +62,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // Gson (To convert raw JSON to pretty JSON)
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    //moshi，相当于是Gson。是square出品的面向Java和Kotlin的JSON解析库，尤其适合基于Kotlin的Android开发。
+    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
 
 }

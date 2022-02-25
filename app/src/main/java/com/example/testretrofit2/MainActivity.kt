@@ -3,6 +3,7 @@ package com.example.testretrofit2
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.testretrofit2.databinding.ActivityMainBinding
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
@@ -18,6 +19,9 @@ import retrofit2.Retrofit
 //CLEARTEXT communication to dummy.restapiexample.com not permitted by network security policy
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    lateinit var viewModel: TestViewModel          //建议的创建模式
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -31,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         binding.getMethod.setOnClickListener { getMethod() }
 
         binding.aspxPost.setOnClickListener { testAspxPost() }
+
+        aspxPost2Setting()
     }
 
     private fun testSelf() {
@@ -236,5 +242,56 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun testAspxPostMvvm(){
+
+        val jsonObject = JSONObject()
+        jsonObject.put("app", "EtOfficeLogin")
+        jsonObject.put("uid", "demo1@xieyi.co.jp")
+        jsonObject.put("password", "pass")
+        jsonObject.put("registrationid", "6")
+        jsonObject.put("device", "android")
+
+        val requestBody = APIService.requestBody(jsonObject)
+
+        //引进service
+        val service = APIService.getInstance()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            // Do the POST request and get response
+            val response = service.testAspxPost2(requestBody)
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+
+                    Log.e("TAG", "response.body(): "+response.body() )
+
+                    binding.jsonContent.text = response.body().toString()
+
+                    viewModel.postsDataList.postValue(response.body())
+
+                    Log.e("TAG", "response: $response")
+                    //response: Response{protocol=http/1.1, code=200, message=OK, url=https://ssl.ethp.net/EthpJson.aspx}
+
+                    Log.e("TAG", "response.code(): "+response.code())
+                    //response.code(): 200
+
+                } else {
+
+                    Log.e("RETROFIT_ERROR", response.code().toString())
+
+                }
+            }
+        }
+    }
+
+    private fun aspxPost2Setting() {
+        binding.aspxPost2.setOnClickListener { testAspxPostMvvm() }
+        viewModel = ViewModelProvider(this).get(TestViewModel::class.java)
+        //observe观察。这里意思就是movieLiveData被观察中，一旦postsLiveData接收数据，就会做出相对应的操作
+        viewModel.postsDataList.observe(this, {
+            binding.jsonContent.text = it.result.toString()
+        })
     }
 }

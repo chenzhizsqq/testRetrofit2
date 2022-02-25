@@ -56,6 +56,14 @@
                 android:text="aspxPost"
                 />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/aspx_post2"
+                android:text="aspxPost 简化版 并MVVM"
+                />
+
 
             <TextView
                 android:id="@+id/jsonContent"
